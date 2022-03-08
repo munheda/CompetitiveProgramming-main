@@ -1,27 +1,22 @@
-from collections import deque
 class Solution:
     def canReach(self, arr: List[int], start: int) -> bool:
+        visited=set()
+        visited.add(start)
         
-        visited = set()
-        queue = deque() 
-        queue.append(start)
-        print(visited)
-
-        while queue:
-            val = queue.popleft()
-            visited.add(val)
-            
-            if arr[val]==0:
+        
+        def dfs(index):
+            if arr[index]==0:
                 return True
-            
-            if (val + arr[val]) < len(arr) and (val + arr[val]) not in visited:
-                queue.append(val + arr[val])
-                visited.add(val + arr[val])
+            else:
+                if (index + arr[index]) < len(arr) and (index + arr[index]) not in visited:
+                    visited.add(index + arr[index])
+                    # print(visited)
+                    return dfs(index + arr[index])
+                if (index - arr[index]) >=0 and (index - arr[index]) not in visited:
+                    visited.add(index - arr[index])
+                    print(visited)
+                    return dfs(index - arr[index])
+            return False 
+        return dfs(start)
+    
                 
-            if (val - arr[val]) >= 0 and (val - arr[val]) not in visited:
-                queue.append(val - arr[val])
-                visited.add(val - arr[val])
-                
-        return False
-        
-        
